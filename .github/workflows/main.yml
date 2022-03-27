@@ -1,0 +1,65 @@
+name: main CI
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+      - "*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ["14.x"]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        python-version: ["2.7.18"]
+
+    steps:
+    - name: check out Git repo
+      uses: actions/checkout@v2
+      
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    
+    - name: install yarn
+      run: npm install -g yarn
+    
+    - name: check python version
+      run: |
+        which python2
+        python2 -m pip install --upgrade pip
+        python2 -V
+    
+    - name: Install && Build
+      run: |
+        chmod -R 755 .
+        yarn install
+        yarn build
+        ls ./dist
+        
+    - name: tar & zip File
+      run: |
+        mkdir dist_file
+        zip -r ./dist_file/subwebM-release-${{ github.ref_name }}.zip ./dist/
+        tar -zcvf ./dist_file/subwebM-release-${{ github.ref_name }}.tar.gz ./dist/
+        
+    - name: release
+      uses: softprops/action-gh-release@v0.1.14
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: "dist_file/*"
+      env:
+          GITHUB_TOKEN: ${{ secrets.REPO }}
+      
