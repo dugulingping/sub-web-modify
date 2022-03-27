@@ -9,7 +9,7 @@
           <svg-icon class="bilibili" icon-class="bilibili" style="float:right;margin-left:10px" @click="gotoBiliBili" />
           <svg-icon class="youguan" icon-class="youtube" style="float:right;margin-left:10px" @click="gotoYouTuBe" />
           <svg-icon class="channel" icon-class="telegram" style="float:right;margin-left: 10px" @click="gotoTgChannel" />
-          <div style="text-align:center;font-size:15px">订 阅 转 换</div>
+          <div style="text-align:center;font-size:15px" @click="goToSourceProject">订 阅 转 换 (原作者:youshandefeiyang)</div>
           </div>
           
           <el-container>
@@ -264,6 +264,7 @@
 </template>
 <script>
 const project = process.env.VUE_APP_PROJECT
+const source_project = process.env.VUE_APP_SOURCE_PROJECT
 const remoteConfigSample = process.env.VUE_APP_SUBCONVERTER_REMOTE_CONFIG
 const gayhubRelease = process.env.VUE_APP_BACKEND_RELEASE
 const defaultBackend = process.env.VUE_APP_SUBCONVERTER_DEFAULT_BACKEND + '/sub?'
@@ -306,6 +307,7 @@ export default {
           "自动判断客户端": "auto",
         },
         shortTypes: {
+         "本站短链服务(180天过期)":"https://srv.ink/short",
          "v1.mk":"https://v1.mk/short",
          "d1.mk":"https://d1.mk/short",
          "dlj.tf":"https://dlj.tf/short",
@@ -313,19 +315,23 @@ export default {
          "sub.cm":"https://sub.cm/short",
         },
         customBackend: {
+          "本站提供": "http://sub.srv.ink:25500/sub?",
           "肥羊增强型后端【负载均衡】":"https://api.v1.mk/sub?",
           "sub-web作者提供": "https://api.wcc.best/sub?",
           "nameless13提供":"https://www.nameless13.com/sub?",
           "subconverter作者提供":"https://subcon.dlj.tf/sub?",
           "sub作者&lhie1提供": "https://api.dler.io/sub?",
           "品云提供": "https://sub.id9.cc/sub?",
+          "本地": "https://127.0.0.1:25500/sub?",
         },
         backendOptions: [
+          { value: "https://sub.id9.cc/sub?" },
           { value: "https://api.v1.mk/sub?" },
           { value: "https://api.wcc.best/sub?" },
           { value: "https://www.nameless13.com/sub?" },
           { value: "https://sub.xeton.dev/sub?" },
           { value: "https://api.dler.io/sub?" },
+          { value: "https://sub.id9.cc/sub?" },
           { value: "https://sub.id9.cc/sub?" },
         ],
         remoteConfig: [
@@ -692,9 +698,9 @@ export default {
       form: {
         sourceSubUrl: "",
         clientType: "",
-        customBackend: "https://api.v1.mk/sub?",
-        shortType: "https://v1.mk/short",
-        remoteConfig: "https://raw.githubusercontent.com/Meilieage/webcdn/main/rule/Area_Media_NoAuto.ini",
+        customBackend: "http://sub.srv.ink:25500/sub?",
+        shortType: "https://srv.ink/short",
+        remoteConfig: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_MultiMode.ini",
         excludeRemarks: "",
         includeRemarks: "",
         filename: "",
@@ -805,6 +811,9 @@ export default {
     },
     goToProject() {
       window.open(project);
+    },
+    goToSourceProject() {
+      window.open(source_project);
     },
     gotoTgChannel() {
       window.open(tgBotLink);
