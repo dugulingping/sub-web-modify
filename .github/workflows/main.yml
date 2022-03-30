@@ -52,8 +52,8 @@ jobs:
     - name: tar & zip File
       run: |
         mkdir dist_file
-        zip -r ./dist_file/subwebM-release-${{ github.ref_name }}.zip ./dist/
-        tar -zcvf ./dist_file/subwebM-release-${{ github.ref_name }}.tar.gz ./dist/
+        zip -r ./dist_file/subwebM-release.zip ./dist/
+        tar -zcvf ./dist_file/subwebM-release.tar.gz ./dist/
         
     - name: release
       uses: softprops/action-gh-release@v0.1.14
