@@ -411,6 +411,7 @@
 </template>
 <script>
 const project = process.env.VUE_APP_PROJECT
+const source_project = process.env.VUE_APP_SOURCE_PROJECT
 const configScriptBackend = process.env.VUE_APP_CONFIG_UPLOAD_BACKEND + '/api.php'
 const remoteConfigSample = process.env.VUE_APP_SUBCONVERTER_REMOTE_CONFIG
 const scriptConfigSample = process.env.VUE_APP_SCRIPT_CONFIG
